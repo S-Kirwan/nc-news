@@ -2,39 +2,38 @@ import { useEffect, useState } from "react";
 
 import ArticleCard from "./article-card.jsx";
 import CardList from "./card-list.jsx";
+import ArticlesSortBy from "./sort-by-select.jsx";
 
 import { fetchArticles } from "../utils/fetch-articles.jsx";
 
 function Articles ()
 {
+	const	defaultQuery =
+	{
+		sortBy:"topic",
+		order:"desc"
+	}
+
+	const	[queries, setQueries] = useState(defaultQuery);
 	const	[articles, setArticles] = useState([]);
 
 	useEffect(() =>
 	{
 		const asyncFetchArticles = async () =>
 		{
-			const articles = await fetchArticles(null);
+			const	query = "?sort_by=" + queries.sortBy + "&order=" + queries.order;
+			
+			const	articles = await fetchArticles(query);
+
 			setArticles(articles);
 		}
 
 		asyncFetchArticles();
-	}, []);
+	}, [queries]);
 
 	return (
 		<section className="article-page">
-			<form id="sort-by">
-				<h3>Sort By</h3>
-				<select>
-					<option>Latest</option>
-					<option>Top Rated</option>
-					<option>Topic</option>
-					<option>Author</option>
-				</select>
-				<select>
-					<option>Ascending</option>
-					<option>Descending</option>
-				</select>
-			</form>
+			<ArticlesSortBy queries={queries} setQueries={setQueries} />
 			<CardList>
 				{articles.map((article) =>
 				{
