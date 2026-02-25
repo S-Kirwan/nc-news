@@ -5,6 +5,8 @@ import './App.css'
 
 import Header from "./components/header.jsx";
 import Home from "./components/home.jsx";
+import Articles from "./components/articles.jsx";
+import Article from "./components/article.jsx";
 
 function App() {
 
@@ -21,9 +23,12 @@ function App() {
 	  <>
 	  <div className="App">
 		<Header user={user} />
-	  	<Routes>
-	  		<Route path="/" element={<Home/>}/>
-	  	</Routes>
+		<hr></hr>
+		<Routes>
+			<Route path="/" element={<Home/>}/>
+			<Route path="/articles" element={<Articles/>}/>
+			<Route path="/articles/:article_id" element={<Article/>}/>
+		</Routes>
 	  </div>
 	  </>
 	)

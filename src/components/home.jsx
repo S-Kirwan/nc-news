@@ -24,10 +24,12 @@ function Home ()
 		<>
 			<h2>Welcome to Snowfall</h2>
 			<CardList>
-				{latestArticles.map((article) =>
 				{
-					return (<ArticleCard key={article.article_id} article={article} />);
-				})}
+					latestArticles.map((article) =>
+					{
+						return (<ArticleCard key={article.article_id} article={article} />);
+					})
+				}
 			</CardList>
 		</>
 	);

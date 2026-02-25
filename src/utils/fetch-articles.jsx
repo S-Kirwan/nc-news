@@ -18,7 +18,7 @@ async function fetchLatestArticles ()
 	}
 }
 
-async function fetchArticles ()
+async function fetchArticles (query)
 {
 	let url = "https://news-back-end-nqi7.onrender.com/api/articles";
 	
@@ -39,4 +39,22 @@ async function fetchArticles ()
 	}
 }
 
-export { fetchLatestArticles, fetchArticles };
+async function fetchIndividualArticle(articleId)
+{
+	const url = `https://news-back-end-nqi7.onrender.com/api/articles/${articleId}`;
+
+	try
+	{
+		const	body = await fetch(url);
+
+		const	parsedBody = await body.json();
+
+		return (parsedBody.article)
+	} catch (error)
+	{
+		console.log(error);
+		return ([]);
+	}
+}
+
+export { fetchLatestArticles, fetchArticles, fetchIndividualArticle };
