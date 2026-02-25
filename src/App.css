@@ -1,4 +1,5 @@
 body {
+  margin: 8px 0px 8px;
   width: auto;
   min-width: 300px;
   display: block;
@@ -14,9 +15,10 @@ h1 {
 .Header {
 	display:flex;
 	flex-direction: row;
-  background-color: white;
-  color: rgba(25, 165, 223);
-  justify-content: space-between;
+	background-color: white;
+	color: rgba(25, 165, 223);
+	justify-content: space-between;
+	align-items: center;
 }
 
 .hamburger-menu {
@@ -25,6 +27,81 @@ h1 {
 }
 
 #header-avatar {
+  height: 35px;
   width: 35px;
-  height:35px;
+  border-radius: 50%;
+  border: 2px solid rgba(25, 165, 223);
+  object-fit: cover;
+}
+
+.card-list {
+  background-color: rgba(25, 165, 223, 0.05);
+	list-style-type: none;
+  padding: 5px 0 0 5px;
+  margin: 0;
+}
+
+h2 {
+  text-align: left;
+}
+
+h3 {
+  font-size: 0.7rem;
+}
+
+.article-card-image {
+  width: 150px;
+  height: 100px;
+  padding: 0px, 5px, 0px, 0px;
+  margin: 0px, 50px, 0px, 0px;
+  grid-area: picture;
+}
+
+.article-card {
+  display: grid;
+  grid-template-areas:
+    "picture topic ."
+    "picture title title"
+    "picture comments votes";
+  padding: 0px 5px 3px 0px;
+  margin: 0px;
+  text-align: left;
+  background-color: white;
+}
+
+.article-card-topic {
+  font-size: 10px;
+  text-align: left;
+  grid-area: topic;
+  margin: 10px 5px 5px 5px;
+
+}
+
+hr {
+  color: rgb(222, 249, 242);
+}
+
+.article-card-comments {
+  grid-area: comments;
+}
+
+.article-card-title {
+  grid-area: title;
+  margin: 10px 5px 5px 5px;
+}
+
+.article-card-votes {
+  grid-area: votes;
+  display: flex;
+  justify-content: space-between;
+}
+
+#header-user-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+#header-username {
+  font-size: 0.7rem;
+  margin: 11.2px 5px;
 }
