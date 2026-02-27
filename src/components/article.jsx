@@ -4,44 +4,55 @@ import { useParams } from "react-router-dom";
 import { fetchIndividualArticle } from "../utils/fetch-articles.jsx";
 import { fetchArticleComments } from "../utils/fetch-comments.jsx";
 
-import CardList from "./card-list.jsx";
+import useFetch from "../hooks/use-fetch.jsx";
+import useVotes from "../hooks/use-votes.jsx";
+
+import CommentsList from "./comments-list.jsx";
 import CommentCard from "./comment-card.jsx";
 
 function Article ()
 {
-	const	[article, setArticle] = useState(null);
-	const	[comments, setComments] = useState([]);
 	const	{ article_id } = useParams()
+	const	{ voteChange, handleVote } = useVotes(article_id, 1);
 
-
-	useEffect(() =>
+	const	fetchOptions =
 	{
-		const	asyncFetchIndividualArticle = async () =>
-		{
-			const	individualArticle = await fetchIndividualArticle(article_id);
+		dependencies : [],
+		params: article_id
+	}
 
-			setArticle(individualArticle);
-		};
+	const
+	{
+		data : article,
+		loading : articleLoading,
+		error : articleError
+	} = useFetch(fetchIndividualArticle, fetchOptions);
 
-		const	asyncFetchComments = async () =>
-		{
-			const fetchedComments = await fetchArticleComments(article_id);
+	const
+	{
+		data : comments,
+		loading : commentsLoading,
+		error : commentsError
+	} = useFetch(fetchArticleComments, fetchOptions);
 
-			setComments(fetchedComments);
-		}
-
-		asyncFetchIndividualArticle();
-		asyncFetchComments();
-	}, []);
-
-	if (article === null)
+	if (articleLoading)
+	{
 		return (
 			<p>loading</p>
 		)
+	}
+
+	if (articleError)
+	{
+		console.log(articleError);
+		return (
+			<p>{articleError}</p>
+		)
+	}
 
 	return (
 		<>
-			<div id="article-subheading">
+			<div className="article-subheading">
 				<h2 className="article-subheading-title">{article.title}</h2>
 				<p className="article-subheading-topic">{article.topic}</p>
 			</div>
@@ -49,23 +60,23 @@ function Article ()
 			<p>{new Date(article.created_at).toLocaleDateString()}</p>
 			<p>{article.body}</p>
 			<div className="article-votes">
-				<p>{article.votes}</p>
-				<button>+</button>
-				<button>-</button>
+				<p>{article.votes + voteChange }</p>
+				<button className="upvote article-upvote" onClick={handleVote}>+</button>
+				<button className="downvote article-downvote" onClick={handleVote}>-</button>
 			</div>
 			<div className="article-comments">
 				<p>{article.comment_count}</p>
 				<button>Post Comment</button>
-				<CardList>
+				<CommentsList>
 					{
+						comments === null ? <p>Loading</p> :
 						comments.map((comment) =>
 						{
 							return (<CommentCard key={comment.comment_id} comment={comment} />);
 						})
 					}
-				</CardList>
+				</CommentsList>
 			</div>
-
 		</>
 	)
 }

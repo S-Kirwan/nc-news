@@ -4,21 +4,27 @@ import CardList from "./card-list.jsx";
 import ArticleCard from "./article-card.jsx";
 
 import { fetchLatestArticles } from "../utils/fetch-articles.jsx";
+import useFetch from "../hooks/use-fetch.jsx";
+
 
 function Home ()
 {
-	const	[latestArticles, setLatestArticles] = useState([]);
+	const	{ data : latestArticles, loading, error } = useFetch(fetchLatestArticles);
 
-	useEffect(() =>
+
+	if (loading)
 	{
-		const asyncFetchLatestArticles = async () =>
-		{
-			const	articles = await fetchLatestArticles();
-			setLatestArticles(articles);
-		}
+		return (
+			<p>Loading</p>
+		)
+	}
 
-		asyncFetchLatestArticles();
-	}, []);
+	if (error)
+	{
+		return (
+			<p>Error</p>
+		)
+	}
 
 	return (
 		<>

@@ -1,21 +1,13 @@
 async function fetchLatestArticles ()
 {
-	const	url = "https://news-back-end-nqi7.onrender.com/api/articles";
 	const	maxArticles = 5;
+	const	url = "https://news-back-end-nqi7.onrender.com/api/articles";
 	
-	try
-	{
-		const	body = await fetch(url);
+	const	response = await fetch(url);
 	
-		const	parsedBody = await body.json();
-		console.log(parsedBody);
-		return (parsedBody.articles.slice(0, maxArticles));
-	
-	} catch (error)
-	{
-		console.log(error);
-		return ([]);
-	}
+	const	body = await response.json();
+
+	return (body.articles.slice(0, maxArticles));
 }
 
 async function fetchArticles (query)
@@ -23,38 +15,31 @@ async function fetchArticles (query)
 	let url = "https://news-back-end-nqi7.onrender.com/api/articles";
 	
 	if (query !== null)
-		url += query;
+		url += "?sort_by=" + query.sortBy + "&order=" + query.order;
 	
-	try
-	{
-		const	body = await fetch(url);
+	const	response = await fetch(url);
+
+	const	body = await response.json();
 	
-		const	parsedBody = await body.json();
-		
-		return (parsedBody.articles);
-	} catch (error)
-	{
-		console.log(error);
-		return ([]);
-	}
+	return (body.articles);
 }
 
 async function fetchIndividualArticle(articleId)
 {
 	const url = `https://news-back-end-nqi7.onrender.com/api/articles/${articleId}`;
 
-	try
-	{
-		const	body = await fetch(url);
+	const	response = await fetch(url);
 
-		const	parsedBody = await body.json();
+	const	body = await response.json();
 
-		return (parsedBody.article)
-	} catch (error)
-	{
-		console.log(error);
-		return ([]);
-	}
+	return (body.article)
+}
+
+async function patchArticleVotes(articleId, votes)
+{
+	const url = `https://news-back-end-nqi7.onrender.com/api/articles/${articleId}`;
+
+	const	response = await fetch(url)
 }
 
 export { fetchLatestArticles, fetchArticles, fetchIndividualArticle };

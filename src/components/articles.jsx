@@ -1,35 +1,43 @@
 import { useEffect, useState } from "react";
 
+import ArticlesSortBy from "./sort-by-select.jsx";
 import ArticleCard from "./article-card.jsx";
 import CardList from "./card-list.jsx";
-import ArticlesSortBy from "./sort-by-select.jsx";
 
 import { fetchArticles } from "../utils/fetch-articles.jsx";
+import useFetch from "../hooks/use-fetch.jsx";
 
 function Articles ()
 {
 	const	defaultQuery =
 	{
-		sortBy:"topic",
+		sortBy:"created_at",
 		order:"desc"
 	}
 
 	const	[queries, setQueries] = useState(defaultQuery);
-	const	[articles, setArticles] = useState([]);
-
-	useEffect(() =>
+	
+	const	fetchOptions =
 	{
-		const asyncFetchArticles = async () =>
-		{
-			const	query = "?sort_by=" + queries.sortBy + "&order=" + queries.order;
-			
-			const	articles = await fetchArticles(query);
+		dependencies: [queries],
+		params: queries
+	}
 
-			setArticles(articles);
-		}
+	const	{ data : articles, loading, error } = useFetch(fetchArticles, fetchOptions)
 
-		asyncFetchArticles();
-	}, [queries]);
+	if (loading)
+	{
+		return (
+			<p>Loading</p>
+		)
+	};
+
+	if (error)
+	{
+		return (
+			<p>${error}</p>
+		)
+	}
 
 	return (
 		<section className="article-page">
