@@ -3,6 +3,7 @@ import { fetchArticleComments } from "../utils/fetch-comments.jsx";
 import useComment from "../hooks/use-comment.jsx";
 import useFetch from "../hooks/use-fetch.jsx";
 
+import PostCommentCard from "./post-comment-card.jsx";
 import CommentsList from "./comments-list.jsx";
 import CommentCard from "./comment-card.jsx";
 
@@ -11,10 +12,10 @@ function ArticleComments ( { article, article_id } )
 {
 	const
 	{
-		postComment,
+		renderPostComment,
 		postedComment,
-		handleSendComment,
-		handlePostComment
+		handlePostComment,
+		handleRenderPostComment
 	} = useComment(article_id);
 
 	const	fetchOptions =
@@ -30,11 +31,16 @@ function ArticleComments ( { article, article_id } )
 		error : commentsError
 	} = useFetch(fetchArticleComments, fetchOptions);
 
+	if (postedComment !== null && comments !== null)
+	{
+		comments.unshift(postedComment);
+	}
+
 	return (
 		<section className="article-comments">
 			<p>{article.comment_count}*ARTICLE_COMMENT_COUNT_PLACEHOLDER*</p>
-			<button onClick={handlePostComment}>Comment</button>
-			{postComment ? <p>postCommentCard</p> : <></>}
+			<button onClick={handleRenderPostComment}>Comment</button>
+			{renderPostComment ? <PostCommentCard article_id={article_id} /> : <></>}
 			<CommentsList>
 				{
 					comments === null ? <p>Loading</p> :
