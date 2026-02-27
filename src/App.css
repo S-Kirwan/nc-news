@@ -109,3 +109,10 @@ hr {
   font-size: 0.7rem;
   margin: 11.2px 5px;
 }
+
+.comments-list {
+  background-color: rgba(25, 165, 223, 0.05);
+	list-style-type: none;
+  padding: 5px 0 0 5px;
+  margin: 0;
+}

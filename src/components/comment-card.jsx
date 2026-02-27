@@ -1,5 +1,11 @@
+import { useContext } from "react";
+
+import { UserContext } from "../contexts/logged-in-user.jsx";
+
 function CommentCard ( { comment } )
 {
+	const	{ user } = useContext(UserContext);
+
 	return (
 		<>
 			<p>{comment.body}</p>
@@ -10,6 +16,7 @@ function CommentCard ( { comment } )
 				{comment.votes}
 				<button className="comment-card-downvote">-</button>
 			</div>
+			{comment.author === user.username ? <button className="delete-button">Delete</button> : <></>}
 		</>
 	)
 }

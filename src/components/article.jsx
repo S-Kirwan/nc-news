@@ -36,7 +36,7 @@ function Article ()
 	{
 		console.log(articleError);
 		return (
-			<p>{articleError}</p>
+			<p>error</p>
 		)
 	}
 

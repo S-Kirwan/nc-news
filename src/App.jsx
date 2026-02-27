@@ -1,7 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
-import { useState } from 'react'
-import './App.css'
+import { useContext } from 'react'
 
+import { UserContext } from "./contexts/logged-in-user.jsx";
+
+import './App.css'
 
 import Header from "./components/header.jsx";
 import Home from "./components/home.jsx";
@@ -10,15 +12,8 @@ import Article from "./components/article.jsx";
 
 function App() {
 
-	const	defaultUser =
-	{
-		username:"jessjelly",
-		name:"Jess Jelly",
-		avatar_url:"https://vignette.wikia.nocookie.net/mrmen/images/4/4f/MR_JELLY_4A.jpg/revision/latest?cb=20180104121141"
-	}
+	const	{ user } = useContext(UserContext);
 
-	const [user, setUser] = useState(defaultUser);
-	
 	return (
 	  <>
 	  <div className="App">
