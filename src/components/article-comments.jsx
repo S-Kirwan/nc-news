@@ -31,6 +31,16 @@ function ArticleComments ( { article, article_id } )
 		error : commentsError
 	} = useFetch(fetchArticleComments, fetchOptions);
 
+	let	commentsToRender = [];
+
+	if (comments !== null)
+	{
+		commentsToRender = [...comments];
+	}
+	if (postedComment !== null)
+	{
+		commentsToRender.unshift(postedComment);
+	}
 	return (
 		<section className="article-comments">
 			<p>{article.comment_count}*ARTICLE_COMMENT_COUNT_PLACEHOLDER*</p>
@@ -38,8 +48,8 @@ function ArticleComments ( { article, article_id } )
 			{renderPostComment ? <PostCommentCard handlePostComment={handlePostComment} /> : <></>}
 			<CommentsList>
 				{
-					comments === null ? <p>Loading</p> :
-					comments.map((comment) =>
+					commentsToRender.length === 0 ? <p>Loading</p> :
+					commentsToRender.map((comment) =>
 					{
 						return (<CommentCard key={comment.comment_id} comment={comment} />);
 					})
