@@ -14,8 +14,12 @@ function useComment(article_id)
 	{
 		event.preventDefault();
 
+		const	comment = event.target.elements.commentText.value;
 
-		const	comment = event.target[0].defaultValue;
+		if (comment === "")
+		{
+			return ;
+		}
 
 		async function postComment()
 		{
@@ -39,9 +43,11 @@ function useComment(article_id)
 				}
 				else
 				{
-					const	body = await response.json();
-					setPostedComment(body);
 					setRenderPostComment(false);
+
+					const	body = await response.json();
+
+					setPostedComment(body.comment);
 				}
 			}
 			catch (error)

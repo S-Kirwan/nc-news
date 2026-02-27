@@ -1,11 +1,9 @@
 import { useState } from "react";
 
-import useComment from "../hooks/use-comment.jsx";
 
-function PostCommentCard ( { article_id } )
+function PostCommentCard ( { handlePostComment } )
 {
 
-	const	{ handlePostComment } = useComment(article_id);
 	const	[commentText, setCommentText] = useState("");
 
 	function handleCommentText (event)
@@ -15,7 +13,7 @@ function PostCommentCard ( { article_id } )
 	
 	return (
 		<form onSubmit={handlePostComment}>
-			<textarea id="comment" value={commentText} onChange={handleCommentText}/>
+			<textarea id="comment" name="commentText" value={commentText} onChange={handleCommentText}/>
 			<input type="submit" value="Post" />
 		</form>
 	)

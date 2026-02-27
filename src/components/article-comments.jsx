@@ -31,16 +31,11 @@ function ArticleComments ( { article, article_id } )
 		error : commentsError
 	} = useFetch(fetchArticleComments, fetchOptions);
 
-	if (postedComment !== null && comments !== null)
-	{
-		comments.unshift(postedComment);
-	}
-
 	return (
 		<section className="article-comments">
 			<p>{article.comment_count}*ARTICLE_COMMENT_COUNT_PLACEHOLDER*</p>
 			<button onClick={handleRenderPostComment}>Comment</button>
-			{renderPostComment ? <PostCommentCard article_id={article_id} /> : <></>}
+			{renderPostComment ? <PostCommentCard handlePostComment={handlePostComment} /> : <></>}
 			<CommentsList>
 				{
 					comments === null ? <p>Loading</p> :
